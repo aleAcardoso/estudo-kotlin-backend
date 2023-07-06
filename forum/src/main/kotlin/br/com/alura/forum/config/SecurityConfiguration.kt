@@ -18,18 +18,17 @@ class SecurityConfiguration(
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http {
-            authorizeRequests {
-                authorize(anyRequest, authenticated)
-            }
-            sessionManagement {
-                sessionCreationPolicy = SessionCreationPolicy.STATELESS
-            }
-            formLogin {
-                disable()
-            }
-            httpBasic { }
-        }
+        http.
+        authorizeHttpRequests()?.
+        requestMatchers("/topicos")?.hasAuthority("LEITURA_ESCRITA")?.
+        anyRequest()?.
+        authenticated()?.
+        and()?.
+        sessionManagement()?.
+        sessionCreationPolicy(SessionCreationPolicy.STATELESS)?.
+        and()?.
+        formLogin()?.disable()?.
+        httpBasic()
         return http.build()
     }
 
