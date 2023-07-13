@@ -8,19 +8,16 @@ import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.mapper.TopicoFormMapper
 import br.com.alura.forum.mapper.TopicoViewMapper
 import br.com.alura.forum.repository.TopicoRepository
-import jakarta.persistence.EntityManager
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.util.stream.Collectors
 
 @Service
 class TopicoService(
     private val repository: TopicoRepository,
     private val topicoViewMapper: TopicoViewMapper,
-    private val topicoFormMapper: TopicoFormMapper,
-    private val em: EntityManager
+    private val topicoFormMapper: TopicoFormMapper
 ) {
     private val notFoundMessage: String = "Topico nao encontrado!"
 
@@ -28,7 +25,6 @@ class TopicoService(
         nomeCurso: String?,
         paginacao: Pageable
     ): Page<TopicoView> {
-        print(em)
         val topicos = nomeCurso?.let { nome ->
             repository.findByCursoNome(nome, paginacao)
         } ?: run {
