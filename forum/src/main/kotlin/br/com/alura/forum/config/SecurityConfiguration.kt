@@ -22,18 +22,20 @@ class SecurityConfiguration(
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.
-        csrf()?.disable()?.
-        authorizeRequests()?.
-        requestMatchers("/topicos")?.hasAuthority("LEITURA_ESCRITA")?.
-        requestMatchers(HttpMethod.POST, "/login")?.permitAll()?.
-        anyRequest()?.
-        authenticated()?.
-        and()?.
-        addFilterBefore(JWTLoginFilter(authManager = configuration.authenticationManager, jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)?.
-        addFilterBefore(JWTAuthenticationFiler(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)?.
-        sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        return http.build()
+        return http
+            .headers { it.frameOptions {frame ->  frame.disable() } }
+            .csrf { it.disable() }
+            .authorizeHttpRequests {authorize ->
+                authorize.requestMatchers("/topicos")?.hasAuthority("LEITURA_ESCRITA")?.
+                requestMatchers(HttpMethod.POST, "/login")?.permitAll()?.
+                requestMatchers(HttpMethod.GET, "/swagger-ui/*")?.permitAll()?.
+                requestMatchers(HttpMethod.GET, "/v3/api-docs/**")?.permitAll()?.
+                anyRequest()?.authenticated()
+            }
+            .addFilterBefore(JWTLoginFilter(authManager = configuration.authenticationManager, jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
+            .addFilterBefore(JWTAuthenticationFiler(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .build()
     }
 
     @Bean
