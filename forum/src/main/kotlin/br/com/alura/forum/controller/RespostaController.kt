@@ -1,4 +1,4 @@
-package br.com.alura.forum.mapper
+package br.com.alura.forum.controller
 
 import br.com.alura.forum.model.Resposta
 import br.com.alura.forum.service.RespostaService
