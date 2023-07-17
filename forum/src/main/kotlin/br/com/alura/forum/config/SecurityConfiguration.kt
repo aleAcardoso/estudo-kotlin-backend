@@ -26,7 +26,9 @@ class SecurityConfiguration(
             .headers { it.frameOptions {frame ->  frame.disable() } }
             .csrf { it.disable() }
             .authorizeHttpRequests {authorize ->
-                authorize.requestMatchers("/topicos")?.hasAuthority("LEITURA_ESCRITA")?.
+                authorize.
+                requestMatchers("/topicos")?.hasAuthority("LEITURA_ESCRITA")?.
+                requestMatchers("/respostas")?.hasAuthority("LEITURA_ESCRITA")?.
                 requestMatchers(HttpMethod.POST, "/login")?.permitAll()?.
                 requestMatchers(HttpMethod.GET, "/swagger-ui/*")?.permitAll()?.
                 requestMatchers(HttpMethod.GET, "/v3/api-docs/**")?.permitAll()?.

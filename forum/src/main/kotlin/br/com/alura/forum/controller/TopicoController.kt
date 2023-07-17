@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
-@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/topicos")
+@SecurityRequirement(name = "bearerAuth")
 class TopicoController(private val service: TopicoService) {
 
     @GetMapping
