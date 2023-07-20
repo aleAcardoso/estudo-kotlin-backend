@@ -1,21 +1,33 @@
-server:
-  port: 8090
-
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:forum
-    username: sa
-    password:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://eyw6324oty5fsovx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/fviooy06yi2yn29z
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-  h2:
-    console:
-      enabled: true
-
+  cache:
+    type: redis
+  redis:
+    host: redis-13949.c11.us-east-1-2.ec2.cloud.redislabs.com
+    port: 13949
+    password: ${REDIS_PASSWORD}
+  mail:
+    host: smtp.mailtrap.io
+    port: 2525
+    username: c3d3ffffd0f574
+    password: 2b812338d8b222
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 jwt:
-  secret: secreto
+  secret: secret
